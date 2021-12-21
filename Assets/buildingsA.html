@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Octal:Empire Buildings</title>
+    <meta charset="utf-8">
+</head>
+
+<style>
+    .colour1 {stroke: rgb(130,  83,  66)}
+    .colour2 {stroke: rgb(192 , 80,  77)}
+    .colour3 {stroke: rgb(207, 181,  59)}
+    .colour4 {stroke: rgb(127,  93, 161)}
+    .colour5 {stroke: rgb(166, 166, 166)}
+    .colour6 {stroke: rgb(136, 206, 250)}
+    .colour7 {stroke: rgb(125, 168,  74)}
+    .colour8 {stroke: rgb(255, 218, 185)}
+    .playerBoard1 {stroke-width: 0.075;fill: rgba(130,  83,  66,0.1)}
+    .playerBoard2 {stroke-width: 0.075;fill: rgba(192 , 80,  77,0.1)}
+    .playerBoard3 {stroke-width: 0.075;fill: rgba(207, 181,  59,0.1)}
+    .playerBoard4 {stroke-width: 0.075;fill: rgba(127,  93, 161,0.1)}
+    .playerBoard5 {stroke-width: 0.075;fill: rgba(166, 166, 166,0.1)}
+    .playerBoard6 {stroke-width: 0.075;fill: rgba(136, 206, 250,0.1)}
+    .playerBoard7 {stroke-width: 0.075;fill: rgba(125, 168,  74,0.1)}
+    .playerBoard8 {stroke-width: 0.075;fill: rgba(255, 218, 185,0.1)}
+    .colour1Fill {fill: rgb(130,  83,  66)}
+    .colour2Fill {fill: rgb(198 , 80,  77)}
+    .colour3Fill {fill: rgb(207, 181,  59)}
+    .colour4Fill {fill: rgb(127,  93, 161)}
+    .colour5Fill {fill: rgb(166, 166, 166)}
+    .colour6Fill {fill: rgb(136, 206, 250)}
+    .colour7Fill {fill: rgb(125, 168,  74)}
+    .colour8Fill {fill: rgb(255, 218, 185)}
+    .actionCost {stroke-width: 0.025; fill: rgb(255,255,255); stroke:rgb(40,40,40)}
+    .cityCost {stroke-width: 0.025; fill: rgb(40,40,40); stroke:rgb(40,40,40)}
+    .minorAction {stroke-width: 0.1; fill: rgb(255,255,255)}
+    .majorAction {stroke-width: 0.08; fill: rgb(255,255,255)}
+    .colourEmpty { fill: rgb(255,255,255)}
+    .colourAny { fill: rgb(40,40,40)}
+    .building {
+        stroke-width: 0.12;
+        fill: rgb(255,255,255);
+        transform: scale(0.77);
+    }
+    .buildingBack {
+        stroke-width: 0.12;
+        fill: rgb(0,0,0);
+        stroke: rgb(0,0,0);
+        transform: scale(0.77);
+    }
+    .lock {
+        stroke-width: 0.065;
+        stroke: rgb(40, 40, 40);
+        fill: none;
+    }
+    .or {
+        stroke-width: 0.035;
+        stroke: rgb(40, 40, 40);
+        stroke-linecap: round;
+    }
+    
+    .foundCity {
+        fill: rgb(255,255,255);
+        stroke: rgb(40,40,40);
+        stroke-width: 0.01;
+    }
+    .smallDiamond {
+        fill: rgb(255,255,255);
+        stroke: rgb(40,40,40);
+        stroke-width: 0.02;
+    }
+    .placeOctile4 {
+        fill: rgb(255,255,255);
+        stroke: rgb(127,93,161);
+        stroke-width: 0.3;
+    }
+    .colourRandomFill { 
+        fill:rgb(230,185,184);
+        stroke-width: 0.05;
+        stroke: rgb(230,185,184);    
+    }
+    .colourBlackBorder {
+        fill: rgb(40,40,40);
+        stroke-width: 0.05;
+        stroke: rgb(40,40,40)
+    }
+    .colourBlackBorderThin {
+        stroke-width: 0.01;
+        stroke: rgb(40,40,40)
+    }
+
+    .octagonCity {
+        stroke: rgb(40, 40, 40);
+        stroke-width: .16;
+        fill: rgb(255,255,255)    
+    }
+    .text {
+        font-family: 'Times New Roman';
+        font-size: .3px;
+        fill: rgb(0,0,0);
+    }
+
+    @media print {
+        body {margin: 0.2}
+        html {margin: 0.2}
+    }
+    .wreath {
+        stroke:green;
+        stroke-width: 0px;
+        fill: green;
+    }
+
+</style>
+
+<body height="11in" width="8.5in" onload="changeColour()">
+    <svg 
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        top = "0in"
+        left = "0in"
+        height = "11in"
+        width = "8.5in"
+        viewBox = "0 0 8.5 11"
+    >
+        <g style="display:none">
+            <!--Base Octagon 1.8 Inch Width-->
+            <polygon 
+                id="Octagon" 
+                points =   "0.52721, 0.00000
+                            1.27279, 0.00000
+                            1.80000, 0.52721
+                            1.80000, 1.27279
+                            1.27279, 1.80000
+                            0.52721, 1.80000
+                            0.00000, 1.27279
+                            0.00000, 0.52721"
+            />
+        </g>
+        <g style="display:none">
+            <g id="updown">
+                <rect x="0" y="0" height = "0.35" width="0.14"/>
+                <polygon points = "-0.07,  0.01
+                                    0.07, -0.18 
+                                    0.21,  0.01" />
+                <polygon transform="translate(0,0.35)" 
+                points = " -0.07,  -0.05
+                            0.07, 0.13 
+                            0.21,  -0.05" />
+            </g>
+        </g>
+        <g style="display:none">
+            <g id="up">
+                <rect x="0" y="0" height = "0.35" width="0.14"/>
+                <polygon points = "-0.07,  0.01
+                                    0.07, -0.18 
+                                    0.21,  0.01" />
+            </g>
+        </g>
+        <g style="display:none">
+            <g id="down">
+                <rect x="0" y="0" height = "0.35" width="0.14"/>
+                <polygon transform="translate(0,0.35)" 
+                points = " -0.07,  -0.01
+                            0.07, 0.17 
+                            0.21,  -0.01" />
+            </g>
+        </g>
+
+        <g id="buildings" transform="translate(0.2,0.2) scale(1.00)">
+            <g id="A-MarketBuildings" transform="translate(0.8,0)">
+                <g id="A-Brown" transform="translate(0,0)">
+                    <use xlink:href="#Octagon" class="colour1 building"/>
+                    <text class="text" x="0.4" y="0.3">A</text>
+                    <use xlink:href="#Octagon" transform="translate(0.75,0.1) scale(0.12)" class="octagonCity"/>
+                    <use xlink:href="#updown" class="colourAny" transform="translate(0.4,0.6) scale(1.1)"/>
+                    <text class="text" x="0.35" y="0.46" transform="scale(2.1)">2</text>
+                </g>
+                <g id="A-Red" transform="translate(1.6,0)">
+                        <use xlink:href="#Octagon" class="colour2 building"/>
+                        <text class="text" x="0.4" y="0.3">A</text>
+                        <use xlink:href="#Octagon" transform="translate(0.75,0.1) scale(0.12)" class="octagonCity"/>
+                        <use xlink:href="#updown" class="colourAny" transform="translate(.8,0.7) rotate(90) scale(0.7)"/>
+                        <use xlink:href="#Min" transform="translate(-0.05,0.15) scale(0.9)"/>
+                        <use xlink:href="#Max" transform="translate( 0.15,0.15) scale(0.9)"/>
+                
+                </g>
+                <g id="A-Gold" transform="translate(3.2,0)">
+                        <use xlink:href="#Octagon" class="colour3 building"/>
+                        <text class="text" x="0.4" y="0.3">A</text>
+                        <use xlink:href="#Octagon" transform="translate(0.75,0.1) scale(0.12)" class="octagonCity"/>
+
+                        <g id="lockClosed" transform="translate (0.1,0.7) scale(0.5)">
+                            <polygon class="colourAny"
+                                points ="   0.000, 0.025
+                                            0.400, 0.000
+                                            0.800, 0.025
+                                            0.800, 0.500
+                                            0.400, 0.525
+                                            0.000, 0.500
+                                "/>
+                            <circle cx="0.4" cy="0.25125" r="0.06" class="colourEmpty"/>
+                            <rect x="0.385" y="0.3" height="0.05" width="0.03" class="colourEmpty"/>
+                            <path class="lock"
+                                    d= "    M0.150,  0.100
+                                            L0.150, -0.200
+                                            C0.150 -0.500, 0.650 -0.500, 0.650 -0.200
+                                            L0.650,  0.100
+                                    "/>
+                        </g>
+                        <path class = "or" d="M0.6,0.95 L0.8,0.45" />
+                        <g id="lockOpen" transform="translate (0.89,0.7) scale(0.5)">
+                                <polygon class="colourAny"
+                                    points ="   0.000, 0.025
+                                                0.400, 0.000
+                                                0.800, 0.025
+                                                0.800, 0.500
+                                                0.400, 0.525
+                                                0.000, 0.500
+                                    "/>
+                                <circle cx="0.4" cy="0.25125" r="0.06" class="colourEmpty"/>
+                                <rect x="0.385" y="0.3" height="0.05" width="0.03" class="colourEmpty"/>
+                                <path class="lock"
+                                        d= "    M0.150,  0.100
+                                                L0.150, -0.200
+                                                C0.150 -0.500, 0.650 -0.500, 0.650 -0.200
+                                                L0.650,  -0.100
+                                        "/>
+                        </g>
+                        
+                
+                </g>
+                <g id="A-Purple" transform="translate(4.8,0)">
+                        <use xlink:href="#Octagon" class="colour4 building"/>
+                        <text class="text" x="0.4" y="0.3">A</text>
+                        <use xlink:href="#Octagon" transform="translate(0.75,0.1) scale(0.12)" class="octagonCity"/>
+                        
+                        <use xlink:href="#up" class="colourAny" transform="translate(0.4,0.65) scale(1.1)"/>
+                        <text class="text" x="0.35" y="0.46" transform="scale(2.1)">3</text>
+                        
+                
+                </g>
+                <g id="A-Grey" transform="translate(0,1.6)">
+                        <use xlink:href="#Octagon" class="colour5 building"/>
+                        <text class="text" x="0.4" y="0.3">A</text>
+                        <use xlink:href="#Octagon" transform="translate(0.75,0.1) scale(0.12)" class="octagonCity"/>
+                        
+                        <use xlink:href="#down" class="colourAny" transform="translate(0.4,0.5) scale(1.1)"/>
+                        <text class="text" x="0.35" y="0.46" transform="scale(2.1)">3</text>
+
+                </g>
+                <g id="A-Blue" transform="translate(1.6,1.6)">
+                        <use xlink:href="#Octagon" class="colour6 building"/>
+                        <text class="text" x="0.4" y="0.3">A</text>
+                        <use xlink:href="#Octagon" transform="translate(0.75,0.1) scale(0.12)" class="octagonCity"/>
+                        
+                        <use xlink:href="#down" class="colourAny" transform="translate(0.2,0.5) scale(1.1)"/>
+                        <text class="text" x="0.20" y="0.46" transform="scale(2.1)">1</text>
+
+                        <use xlink:href="#up" class="colourAny" transform="translate(0.85,0.65) scale(1.1)"/>
+                        <text class="text" x="0.50" y="0.46" transform="scale(2.1)">1</text>
+                
+                </g>
+                <g id="A-Green" transform="translate(3.2,1.6)">
+                        <use xlink:href="#Octagon" class="colour7 building"/>
+                        <text class="text" x="0.4" y="0.3">A</text>
+                        <use xlink:href="#Octagon" transform="translate(0.75,0.1) scale(0.12)" class="octagonCity"/>
+
+                        <use xlink:href="#lockClosed" transform="translate(0.2,0.1) scale(0.7)"/>
+                        <use xlink:href="#up" transform="translate(0.375,0.95) scale(0.7)"/>
+                        
+                        <rect class="actionCost" x="0.78" y="0.4750" height="0.275" width="0.275"/>
+                        <text class="text" x="1.000" y="0.85" transform="scale(0.8)">x2</text>
+                        <use xlink:href="#down" transform="translate(0.875,0.85) scale(0.7)"/>
+                        
+                
+                </g>
+                <g id="A-Beige" transform="translate(4.8,1.6)">
+                        <use xlink:href="#Octagon" class="colour8 building"/>
+                        <text class="text" x="0.4" y="0.3">A</text>
+                        <use xlink:href="#Octagon" transform="translate(0.75,0.1) scale(0.12)" class="octagonCity"/>
+                        <g id="Min" transform="translate(0,0.05) scale(0.95)">
+                            <use xlink:href="#down" transform="translate(0.3,0.39)"/>
+                            <path class = "or" d="M0.25,0.95 L0.5,0.95" />
+                        </g>
+                        <g id="Max" transform="translate(.70,0.2) scale(0.95)">
+                            <use xlink:href="#up" transform="translate(0.3,0.47)"/>
+                            <path class = "or" d="M0.25,0.25 L0.5,0.25" />
+                        </g>
+
+                        <path class = "or" d="M0.6,0.95 L0.8,0.45" />
+                
+                </g>
+                <g id="backA" transform="translate(0,3.2)">
+                        <use xlink:href="#Octagon" class="buildingBack"/>
+                        <text class="text" x="0.423" y="0.3" transform="scale(3) translate(-0.30,0.00)" style="fill:rgb(255,255,255)">A</text>
+                </g>
+                <use xlink:href="#backA" transform="translate(1.6,0.0)"/>
+                <use xlink:href="#backA" transform="translate(3.2,0.0)"/>
+                <use xlink:href="#backA" transform="translate(4.8,0.0)"/>
+                <use xlink:href="#backA" transform="translate(0.0,1.6)"/>
+                <use xlink:href="#backA" transform="translate(1.6,1.6)"/>
+                <use xlink:href="#backA" transform="translate(3.2,1.6)"/>
+                <use xlink:href="#backA" transform="translate(4.8,1.6)"/>
+
+
+            </g>
+        </g>    
+    </svg>
+</body>
+
+
+</html>
